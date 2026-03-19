@@ -9,8 +9,8 @@ services:
     ports:
       - "5555:5555"
 
-    # volumes:
-    #   - ./data:/data
+    volumes:
+      - ./data:/data
       # - ./scripts:/opt/scripts:ro   # we’ll put post-boot scripts here
 
     # DO NOT override entrypoint
