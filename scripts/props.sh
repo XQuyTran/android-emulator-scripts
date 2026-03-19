@@ -118,25 +118,12 @@ rp ro.bt.bdaddr "22:33:44:55:66:77"
 rp persist.service.bdroid.bdaddr "22:33:44:55:66:77"
 
 # ======================================================
-#  6. BATTERY SERVICE FIX (Removes “error reading battery”)
-# ======================================================
-
-# These must run via dumpsys *after boot* (service.d handles this timing)
-dumpsys battery reset
-dumpsys battery set level 83
-dumpsys battery set status 3   # discharging
-dumpsys battery set ac 0
-dumpsys battery set usb 0
-dumpsys battery set wireless 0
-dumpsys battery set temp 305   # 30.5°C
-
-# ======================================================
-#  7. EXTRA HARDENING
+#  6. EXTRA HARDENING
 # ======================================================
 
 rp ro.config.low_ram false
-# rp persist.sys.locale "vi-VN"
-# rp persist.sys.timezone "Asia/Ho_Chi_Minh"
+rp persist.sys.locale "vi-VN"
+rp persist.sys.timezone "Asia/Ho_Chi_Minh"
 
 # End of script
 exit 0
