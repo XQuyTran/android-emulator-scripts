@@ -4,6 +4,7 @@ services:
     image: redroid/redroid:13.0.0_magisk_mindthegapps
     container_name: redroid13
     privileged: true
+    restart: unless-stopped
 
     # Expose ADB for your host (lock down with UFw/NSG if cloud)
     ports:
