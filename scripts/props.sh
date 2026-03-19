@@ -135,8 +135,8 @@ dumpsys battery set temp 305   # 30.5°C
 # ======================================================
 
 rp ro.config.low_ram false
-rp persist.sys.locale "vi-VN"
-rp persist.sys.timezone "Asia/Ho_Chi_Minh"
+# rp persist.sys.locale "vi-VN"
+# rp persist.sys.timezone "Asia/Ho_Chi_Minh"
 
 # End of script
 exit 0

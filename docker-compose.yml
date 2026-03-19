@@ -89,7 +89,7 @@ services:
       - "gsm.sim.operator.alpha=Viettel"
 
       # --- Region realism ---
-      - "persist.sys.locale=vi-VN"
-      - "persist.sys.timezone=Asia/Ho_Chi_Minh"
+      # - "persist.sys.locale=vi-VN"
+      # - "persist.sys.timezone=Asia/Ho_Chi_Minh"
 
   # adb:
