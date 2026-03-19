@@ -11,7 +11,7 @@ services:
 
     volumes:
       - ./data:/data
-      # - ./scripts:/opt/scripts:ro   # we’ll put post-boot scripts here
+      - ./scripts:/opt/scripts:ro   # we’ll put post-boot scripts here
 
     # DO NOT override entrypoint
 
@@ -89,7 +89,7 @@ services:
       - "gsm.sim.operator.alpha=Viettel"
 
       # --- Region realism ---
-      # - "persist.sys.locale=vi-VN"
-      # - "persist.sys.timezone=Asia/Ho_Chi_Minh"
+      - "persist.sys.locale=vi-VN"
+      - "persist.sys.timezone=Asia/Ho_Chi_Minh"
 
   # adb:
