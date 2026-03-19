@@ -9,8 +9,9 @@ adb -s "$ADB_TARGET" wait-for-device
 
 # Push properties edit script to the device and execute it with root privileges
 adb -s "$ADB_TARGET" push props.sh /sdcard/props.sh
+adb -s "$ADB_TARGET" shell su 0 "mkdir -p /data/adb/service.d"
 adb -s "$ADB_TARGET" shell su 0 "mv /sdcard/props.sh /data/adb/service.d/props.sh"
-adb -s "$ADB_TARGET" shell su 0 "chmod +x /data/adb/service.d/props.sh"
+adb -s "$ADB_TARGET" shell su 0 "chmod 755 /data/adb/service.d/props.sh"
 adb -s "$ADB_TARGET" shell su 0 "/data/adb/service.d/props.sh"
 adb -s "$ADB_TARGET" shell su 0 "rm -f /data/adb/service.d/props.sh"
 
