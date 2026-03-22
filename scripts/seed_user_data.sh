@@ -2,6 +2,12 @@
 ADB_TARGET="${ADB_TARGET:-127.0.0.1:5555}"
 ADB="adb -s $ADB_TARGET"   # or: adb -s <serial>
 
+$ADB shell 'content insert --uri content://com.android.contacts/raw_contacts --bind account_name:s:NULL --bind account_type:s:NULL'
+$ADB shell 'content insert --uri content://com.android.contacts/data --bind raw_contact_id:i:1 --bind mimetype:s:"vnd.android.cursor.item/name" --bind data2:s:"Init User"'
+$ADB shell 'content delete --uri content://com.android.contacts/contacts'
+$ADB shell 'content delete --uri content://com.android.contacts/raw_contacts'
+$ADB shell 'content delete --uri content://com.android.contacts/data'
+
 echo "[Seeder] Starting realistic user data seeding..."
 
 # ======================================================
