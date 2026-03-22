@@ -1,22 +1,6 @@
-# Browser
 com.android.chrome/com.google.android.apps.chrome.Main
-
-# SMS
 com.google.android.apps.messaging/com.google.android.apps.messaging.ui.ConversationListActivity
-
-# Phone / Dialer
 com.google.android.dialer/com.google.android.dialer.extensions.GoogleDialtactsActivity
-
-# Gallery
 com.simplemobiletools.gallery.pro/com.simplemobiletools.gallery.activities.MainActivity
-
-# File Manager
 com.google.android.apps.nbu.files/com.google.android.apps.nbu.files.home.HomeActivity
-
-# YouTube
 com.google.android.youtube/com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity
-
-# OPTIONAL Social Apps (uncomment if installed)
-# com.facebook.katana/com.facebook.katana.LoginActivity
-# com.zhiliaoapp.musically/com.ss.android.ugc.aweme.splash.SplashActivity
-# com.instagram.android/com.instagram.mainactivity.LauncherActivity

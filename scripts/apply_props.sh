@@ -17,3 +17,6 @@ adb -s "$ADB_TARGET" shell su 0 "rm -f /data/adb/service.d/props.sh"
 
 # Check properties
 adb -s "$ADB_TARGET" shell getprop | grep -Ei 'userdebug|test-keys|redroid_'
+
+adb -s "$ADB_TARGET" shell settings put system pointer_location 1
+adb -s "$ADB_TARGET" shell settings put system show_touches 1
