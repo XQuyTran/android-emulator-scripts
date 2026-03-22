@@ -1,79 +1,93 @@
 #!/usr/bin/env bash
 ADB_TARGET="${ADB_TARGET:-127.0.0.1:5555}"
-ADB="adb -s $ADB_TARGET"   # or: adb -s <serial>
+ADB="adb -s $ADB_TARGET"
 
-echo "[ClearSeeder] Starting cleanup of seeded data..."
-
-# ======================================================
-# 1) CONTACTS — Remove all local contacts
-# ======================================================
-echo "[ClearSeeder] Deleting contacts..."
-$ADB shell content delete --uri content://contacts/contacts
-$ADB shell content delete --uri content://raw_contacts
-$ADB shell content delete --uri content://data
+echo "[ClearSeeder] Starting cleanup..."
 
 # ======================================================
-# 2) SMS — Remove inbox, sent, drafts
+# ✅ CONTACTS (modern providers)
 # ======================================================
-echo "[ClearSeeder] Deleting SMS..."
+echo "[ClearSeeder] Removing contacts..."
+
+# Delete all data rows (names, numbers, emails…)
+$ADB shell content delete --uri content://com.android.contacts/data
+
+# Delete all raw contacts (individual entries)
+$ADB shell content delete --uri content://com.android.contacts/raw_contacts
+
+# Delete contact aggregates (display entries)
+$ADB shell content delete --uri content://com.android.contacts/contacts
+
+
+# ======================================================
+# ✅ SMS (modern AOSP provider still supports this)
+# ======================================================
+echo "[ClearSeeder] Removing SMS..."
 $ADB shell content delete --uri content://sms
 $ADB shell content delete --uri content://mms-sms/conversations/
 
-# ======================================================
-# 3) CALL LOG — Clear entire call history
-# ======================================================
-echo "[ClearSeeder] Deleting call logs..."
-$ADB shell content delete --uri content://call_log/calls
 
 # ======================================================
-# 4) PHOTOS — Remove seeded photos from camera/DCIM
+# ✅ CALL LOGS
+# ======================================================
+echo "[ClearSeeder] Removing call logs..."
+$ADB shell content delete --uri content://call_log/calls
+
+
+# ======================================================
+# ✅ PHOTOS (DCIM, Pictures, Screenshots, etc.)
 # ======================================================
 echo "[ClearSeeder] Removing photos..."
 $ADB shell rm -rf /sdcard/DCIM/Camera/*
 $ADB shell rm -rf /sdcard/Pictures/*
+$ADB shell rm -rf /sdcard/Screenshots/*
+
 
 # ======================================================
-# 5) DOWNLOADS & DOCUMENTS — Remove clutter
+# ✅ FILESYSTEM CLUTTER
 # ======================================================
-echo "[ClearSeeder] Removing files..."
+echo "[ClearSeeder] Cleaning file clutter..."
 $ADB shell rm -f /sdcard/Download/*
 $ADB shell rm -f /sdcard/Documents/*
 $ADB shell rm -f /sdcard/DCIM/*thumbnail*
 
+
 # ======================================================
-# 6) BROWSER HISTORY — Clear Chrome data
+# ✅ BROWSER HISTORY (Chrome / WebView)
 # ======================================================
-echo "[ClearSeeder] Clearing Chrome history/cache..."
+echo "[ClearSeeder] Clearing browser data..."
 $ADB shell pm clear com.android.chrome >/dev/null 2>&1
+$ADB shell pm clear com.android.browser >/dev/null 2>&1 || true
 
-# If using WebView browser instead:
-$ADB shell pm clear com.android.browser >/dev/null 2>&1
 
 # ======================================================
-# 7) NOTIFICATIONS — Clear all
+# ✅ NOTIFICATIONS
 # ======================================================
-echo "[ClearSeeder] Dismissing notifications..."
+echo "[ClearSeeder] Clearing notifications..."
 $ADB shell cmd notification cancel_all
 
+
 # ======================================================
-# 8) RECENTS SCREEN — Close all recent apps
+# ✅ RECENT APPS
 # ======================================================
 echo "[ClearSeeder] Clearing recents..."
 $ADB shell input keyevent 187
 sleep 1
-$ADB shell input keyevent 111   # KEYCODE_ESCAPE (dismiss)
+$ADB shell input keyevent 111
+
 
 # ======================================================
-# 9) USAGE STATS — Reset last 24h usage
+# ✅ USAGE STATS
 # ======================================================
-echo "[ClearSeeder] Resetting usage stats..."
-$ADB shell pm reset-permissions >/dev/null 2>&1
-$ADB shell rm -rf /data/system/usagestats/*
+echo "[ClearSeeder] Clearing app usage stats..."
+$ADB shell rm -rf /data/system/usagestats/* 2>/dev/null || true
+
 
 # ======================================================
-# 10) CLEAN TEMP FOLDERS
+# ✅ TEMP FOLDERS
 # ======================================================
-echo "[ClearSeeder] Removing temp seeder folders..."
+echo "[ClearSeeder] Removing temp seed folders..."
 rm -rf sample_photos
 
-echo "[ClearSeeder] ✅ All seeded user data cleared."
+
+echo "[ClearSeeder] All seeded data cleared successfully!"
