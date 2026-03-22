@@ -100,9 +100,9 @@ done
 echo "[Seeder] Adding SMS messages..."
 
 add_sms inbox "Viettel" "Your\ data\ pack\ has\ been\ renewed\ successfully."
-add_sms inbox "Shopee" "Your\ delivery\ will\ arrive\ today\ between\ 2-6 PM."
+add_sms inbox "Shopee" "Your\ delivery\ will\ arrive\ today\ between\ 2-6\ PM."
 add_sms inbox "+12025550123" "Reminder:\ Your\ appointment\ is\ scheduled\ at\ 11:00\ AM\ tomorrow."
-add_sms sent "+84981234567" "I'll call you later."
+add_sms sent "+84981234567" "I'll\ call\ you\ later."
 
 # ======================================================
 # 3) CALL LOG — realistic call history
