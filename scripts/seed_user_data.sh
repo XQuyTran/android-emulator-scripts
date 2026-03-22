@@ -2,6 +2,32 @@
 ADB_TARGET="${ADB_TARGET:-127.0.0.1:5555}"
 ADB="adb -s $ADB_TARGET"
 
+add_contact() {
+  local NAME="$1"
+  local PHONE="$2"
+
+  # Create local raw contact (null account_type + null account_name = "Local Phone")
+  RAW_ID=$($ADB shell content insert \
+      --uri content://raw_contacts \
+      --bind account_type:s:NULL \
+      --bind account_name:s:NULL | awk -F= '/id/ {print $2}')
+
+  # Add structured name
+  $ADB shell content insert \
+      --uri content://data \
+      --bind raw_contact_id:i:"$RAW_ID" \
+      --bind mimetype:s:"vnd.android.cursor.item/name" \
+      --bind data2:s:"$NAME"
+
+  # Add phone number
+  $ADB shell content insert \
+      --uri content://data \
+      --bind raw_contact_id:i:"$RAW_ID" \
+      --bind mimetype:s:"vnd.android.cursor.item/phone_v2" \
+      --bind data1:s:"$PHONE" \
+      --bind data2:i:2  > /dev/null
+}
+
 echo "[Seeder] Starting realistic user data seeding..."
 
 # ======================================================
@@ -23,13 +49,12 @@ PHONE_PREFIXES=("+84" "+1" "+44" "+65" "+49" "+81" "+34" "+852" "+61" "+971" "+3
 for i in $(seq 1 25); do
   FIRST=${FIRST_NAMES[$RANDOM % ${#FIRST_NAMES[@]}]}
   LAST=${LAST_NAMES[$RANDOM % ${#LAST_NAMES[@]}]}
-  NAME="$FIRST $LAST"
+  NAME="$FIRST\ $LAST"
 
   PREFIX=${PHONE_PREFIXES[$RANDOM % ${#PHONE_PREFIXES[@]}]}
   NUMBER="$PREFIX$((10000000 + RANDOM % 89999999))"
 
-  $ADB shell content insert --uri content://contacts/people \
-      --bind name:s:"$NAME" --bind phone:s:"$NUMBER"
+  add_contact "$NAME" "$NUMBER"
 done
 
 # ======================================================
@@ -40,17 +65,17 @@ echo "[Seeder] Creating SMS threads..."
 
 $ADB shell content insert --uri content://sms/inbox \
       --bind address:s:"Viettel" \
-      --bind body:s:"Your data pack has been renewed successfully." \
+      --bind body:s:"Your\ data\ pack\ has\ been\ renewed\ successfully." \
       --bind date:l:`date +%s`000
 
 $ADB shell content insert --uri content://sms/inbox \
       --bind address:s:"Shopee" \
-      --bind body:s:"Your delivery will arrive today between 2-6 PM." \
+      --bind body:s:"Your\ delivery\ will\ arrive\ today\ between\ 2-6\ PM." \
       --bind date:l:`date +%s`000
 
 $ADB shell content insert --uri content://sms/sent \
       --bind address:s:"+84981234567" \
-      --bind body:s:"I'll call you later." \
+      --bind body:s:"I'll\ call\ you\ later." \
       --bind date:l:`date +%s`000
 
 # ======================================================
