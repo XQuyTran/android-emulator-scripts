@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-ADB="adb"
+ADB_TARGET="${ADB_TARGET:-127.0.0.1:5555}"
+ADB="adb -s $ADB_TARGET"
 APP_LIST="apps.txt"
 
 MIN_INTERVAL=480
