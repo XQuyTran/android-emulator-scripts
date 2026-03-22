@@ -17,40 +17,38 @@ add_contact() {
   local NAME="$1"
   local PHONE="$2"
 
-  # 1) Insert empty local raw contact (NULL account)
+  # 1) Insert raw contact
   $ADB shell content insert \
       --uri content://com.android.contacts/raw_contacts \
       --bind account_type:s:NULL \
       --bind account_name:s:NULL >/dev/null
 
-  # 2) Retrieve latest raw_contact_id
+  # 2) Query all raw contacts & extract last _id
   RAW_ID=$($ADB shell content query \
       --uri content://com.android.contacts/raw_contacts \
-      --projection _id \
-      --sort "_id DESC" \
-      --limit 1 | grep "_id=" | sed 's/.*_id=//')
+      --projection _id | grep "_id=" | sed 's/.*_id=//g' | tail -n 1)
 
   if [ -z "$RAW_ID" ]; then
-    echo "[Seeder][ERROR] RAW_ID is empty, contact not created!"
-    return
+    echo "[Seeder][ERROR] RAW_ID is empty. Contacts DB likely not initialized."
+    return 1
   fi
 
-  echo "[Seeder] RAW_ID acquired: $RAW_ID"
+  echo "[Seeder] Using RAW_ID=$RAW_ID"
 
-  # 3) Add structured name
+  # 3) Insert name
   $ADB shell content insert \
       --uri content://com.android.contacts/data \
-      --bind raw_contact_id:i:$RAW_ID \
+      --bind raw_contact_id:i:"$RAW_ID" \
       --bind mimetype:s:"vnd.android.cursor.item/name" \
       --bind data2:s:"$NAME"
 
-  # 4) Add phone number
+  # 4) Insert phone
   $ADB shell content insert \
       --uri content://com.android.contacts/data \
-      --bind raw_contact_id:i:$RAW_ID \
+      --bind raw_contact_id:i:"$RAW_ID" \
       --bind mimetype:s:"vnd.android.cursor.item/phone_v2" \
       --bind data1:s:"$PHONE" \
-      --bind data2:i:2 >/dev/null
+      --bind data2:i:2
 
   echo "[Seeder] Contact created: $NAME ($PHONE)"
 }
