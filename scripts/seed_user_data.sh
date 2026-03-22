@@ -8,20 +8,20 @@ add_contact() {
 
   # Create local raw contact (null account_type + null account_name = "Local Phone")
   RAW_ID=$($ADB shell content insert \
-      --uri content://raw_contacts \
+      --uri content://com.android.contacts/raw_contacts \
       --bind account_type:s:NULL \
       --bind account_name:s:NULL | awk -F= '/id/ {print $2}')
 
   # Add structured name
   $ADB shell content insert \
-      --uri content://data \
+      --uri content://com.android.contacts/data \
       --bind raw_contact_id:i:"$RAW_ID" \
       --bind mimetype:s:"vnd.android.cursor.item/name" \
       --bind data2:s:"$NAME"
 
   # Add phone number
   $ADB shell content insert \
-      --uri content://data \
+      --uri content://com.android.contacts/data \
       --bind raw_contact_id:i:"$RAW_ID" \
       --bind mimetype:s:"vnd.android.cursor.item/phone_v2" \
       --bind data1:s:"$PHONE" \
