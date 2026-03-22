@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-ADB="adb"   # or: adb -s <serial>
+ADB_TARGET="${ADB_TARGET:-127.0.0.1:5555}"
+ADB="adb -s $ADB_TARGET"   # or: adb -s <serial>
 
 echo "[ClearSeeder] Starting cleanup of seeded data..."
 
