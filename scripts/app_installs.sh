@@ -2,12 +2,12 @@
 ADB_TARGET="${ADB_TARGET:-127.0.0.1:5555}"
 ADB="adb -s $ADB_TARGET"   # OR: ADB="adb -s <device>"
 
-echo "[AutoInstall] Creating temp folder..."
+echo "[AutoInstall] Creating download folder..."
 mkdir -p apk_downloads
 cd apk_downloads
 
 # ------------------------------------------------------------
-# HELPER FUNCTIONS
+# Helper functions
 # ------------------------------------------------------------
 download_apk() {
     local URL="$1"
@@ -17,75 +17,79 @@ download_apk() {
 }
 
 install_apk() {
-    local FILE="$1"
-    echo "[AutoInstall] Installing $FILE ..."
-    $ADB install -r "$FILE"
+    local APK="$1"
+    echo "[AutoInstall] Installing $APK..."
+    $ADB install -r "$APK"
 }
 
 # ------------------------------------------------------------
-# 1. GOOGLE CHROME (standard APK)
+# 1. Google Chrome
 # ------------------------------------------------------------
 download_apk \
-  "https://www.apkmirror.com/wp-content/themes/APKMirror/download.php?id=1002177" \
+  "https://d.apkpure.com/b/APK/com.android.chrome?version=latest" \
   "chrome.apk"
 install_apk "chrome.apk"
 
 # ------------------------------------------------------------
-# 2. GOOGLE MESSAGES (SMS app)
+# 2. Google Messages (SMS)
 # ------------------------------------------------------------
 download_apk \
-  "https://www.apkmirror.com/wp-content/themes/APKMirror/download.php?id=1001953" \
+  "https://d.apkpure.com/b/APK/com.google.android.apps.messaging?version=latest" \
   "messages.apk"
 install_apk "messages.apk"
 
 # ------------------------------------------------------------
-# 3. GOOGLE PHONE (Dialer)
+# 3. Google Phone (Dialer)
 # ------------------------------------------------------------
 download_apk \
-  "https://www.apkmirror.com/wp-content/themes/APKMirror/download.php?id=995794" \
+  "https://d.apkpure.com/b/APK/com.google.android.dialer?version=latest" \
   "phone.apk"
 install_apk "phone.apk"
 
 # ------------------------------------------------------------
-# 4. SIMPLE GALLERY (FOSS)
+# 4. Simple Gallery (FOSS Gallery App)
 # ------------------------------------------------------------
 download_apk \
-  "https://github.com/SimpleMobileTools/Simple-Gallery/releases/download/5.1.0/SimpleGalleryPro_5.1.0.apk" \
+  "https://d.apkpure.com/b/APK/com.simplemobiletools.gallery.pro?version=latest" \
   "simple_gallery.apk"
 install_apk "simple_gallery.apk"
 
 # ------------------------------------------------------------
-# 5. FILES BY GOOGLE
+# 5. Files by Google
 # ------------------------------------------------------------
 download_apk \
-  "https://www.apkmirror.com/wp-content/themes/APKMirror/download.php?id=982652" \
+  "https://d.apkpure.com/b/APK/com.google.android.apps.nbu.files?version=latest" \
   "files.apk"
 install_apk "files.apk"
 
 # ------------------------------------------------------------
-# 6. YOUTUBE
+# 6. YouTube
 # ------------------------------------------------------------
 download_apk \
-  "https://www.apkmirror.com/wp-content/themes/APKMirror/download.php?id=1002074" \
+  "https://d.apkpure.com/b/APK/com.google.android.youtube?version=latest" \
   "youtube.apk"
 install_apk "youtube.apk"
 
 # ------------------------------------------------------------
-# OPTIONAL: FACEBOOK, TIKTOK, INSTAGRAM (Uncomment to enable)
+# OPTIONAL: Facebook, TikTok, Instagram
 # ------------------------------------------------------------
-download_apk \
-  "https://www.apkmirror.com/wp-content/themes/APKMirror/download.php?id=991138" \
-  "facebook.apk"
-install_apk "facebook.apk"
-#
+
+# TikTok
 # download_apk \
-#   "https://www.apkmirror.com/wp-content/themes/APKMirror/download.php?id=1000372" \
+#   "https://d.apkpure.com/b/APK/com.zhiliaoapp.musically?version=latest" \
 #   "tiktok.apk"
 # install_apk "tiktok.apk"
-#
+
+# Facebook
 # download_apk \
-#   "https://www.apkmirror.com/wp-content/themes/APKMirror/download.php?id=999411" \
+#   "https://d.apkpure.com/b/APK/com.facebook.katana?version=latest" \
+#   "facebook.apk"
+# install_apk "facebook.apk"
+
+# Instagram
+# download_apk \
+#   "https://d.apkpure.com/b/APK/com.instagram.android?version=latest" \
 #   "instagram.apk"
 # install_apk "instagram.apk"
 
-echo "[AutoInstall] ✅ All apps installed."
+echo "[AutoInstall] ✅ All apps installed successfully."
