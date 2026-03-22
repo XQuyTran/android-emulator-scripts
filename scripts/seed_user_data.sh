@@ -86,7 +86,7 @@ PREFIXES=("+84" "+1" "+44" "+65" "+49" "+81" "+34" "+852" "+61" "+971" "+33" "+8
 for i in $(seq 1 25); do
   FN=${FIRST_NAMES[$RANDOM % ${#FIRST_NAMES[@]}]}
   LN=${LAST_NAMES[$RANDOM % ${#LAST_NAMES[@]}]}
-  NAME="$FN $LN"
+  NAME="$FN\ $LN"
   PREFIX=${PREFIXES[$RANDOM % ${#PREFIXES[@]}]}
   PHONE="$PREFIX$((10000000 + RANDOM % 89999999))"
 
@@ -99,9 +99,9 @@ done
 # ======================================================
 echo "[Seeder] Adding SMS messages..."
 
-add_sms inbox "Viettel" "Your data pack has been renewed successfully."
-add_sms inbox "Shopee" "Your delivery will arrive today between 2-6 PM."
-add_sms inbox "+12025550123" "Reminder: Your appointment is scheduled at 11 AM tomorrow."
+add_sms inbox "Viettel" "Your\ data\ pack\ has\ been\ renewed\ successfully."
+add_sms inbox "Shopee" "Your\ delivery\ will\ arrive\ today\ between\ 2-6 PM."
+add_sms inbox "+12025550123" "Reminder:\ Your\ appointment\ is\ scheduled\ at\ 11:00\ AM\ tomorrow."
 add_sms sent "+84981234567" "I'll call you later."
 
 # ======================================================
