@@ -64,7 +64,7 @@ $ADB shell pm clear com.android.browser >/dev/null 2>&1 || true
 # ✅ NOTIFICATIONS
 # ======================================================
 echo "[ClearSeeder] Clearing notifications..."
-$ADB shell cmd notification post_dismiss_all
+$ADB shell service call statusbar 1
 
 
 # ======================================================

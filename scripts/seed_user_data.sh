@@ -2,12 +2,6 @@
 ADB_TARGET="${ADB_TARGET:-127.0.0.1:5555}"
 ADB="adb -s $ADB_TARGET"   # or: adb -s <serial>
 
-$ADB shell 'content insert --uri content://com.android.contacts/raw_contacts --bind account_name:s:NULL --bind account_type:s:NULL'
-$ADB shell 'content insert --uri content://com.android.contacts/data --bind raw_contact_id:i:1 --bind mimetype:s:"vnd.android.cursor.item/name" --bind data2:s:"Init User"'
-$ADB shell 'content delete --uri content://com.android.contacts/contacts'
-$ADB shell 'content delete --uri content://com.android.contacts/raw_contacts'
-$ADB shell 'content delete --uri content://com.android.contacts/data'
-
 echo "[Seeder] Starting realistic user data seeding..."
 
 # ======================================================
@@ -101,7 +95,7 @@ echo "[Seeder] Adding SMS messages..."
 
 add_sms inbox "Viettel" "Your\ data\ pack\ has\ been\ renewed\ successfully."
 add_sms inbox "Shopee" "Your\ delivery\ will\ arrive\ today\ between\ 2-6\ PM."
-add_sms inbox "+12025550123" "Reminder:\ Your\ appointment\ is\ scheduled\ at\ 11:00\ AM\ tomorrow."
+add_sms inbox "+12025550123" "Reminder\:\ Your\ appointment\ is\ scheduled\ at\ 11\:00\ AM\ tomorrow."
 add_sms sent "+84981234567" "I'll\ call\ you\ later."
 
 # ======================================================
@@ -127,11 +121,11 @@ done
 echo "[Seeder] Adding sample photos to DCIM..."
 
 mkdir -p sample_photos
-curl -s -o sample_photos/p1.jpg https://picsum.photos/720/1280
-curl -s -o sample_photos/p2.jpg https://picsum.photos/1280/720
-curl -s -o sample_photos/p3.jpg https://picsum.photos/1080/1080
-curl -s -o sample_photos/p4.jpg https://picsum.photos/800/600
-curl -s -o sample_photos/p5.jpg https://picsum.photos/600/800
+curl -s -Lo sample_photos/p1.jpg https://picsum.photos/720/1280
+curl -s -Lo sample_photos/p2.jpg https://picsum.photos/1280/720
+curl -s -Lo sample_photos/p3.jpg https://picsum.photos/1080/1080
+curl -s -Lo sample_photos/p4.jpg https://picsum.photos/800/600
+curl -s -Lo sample_photos/p5.jpg https://picsum.photos/600/800
 
 $ADB shell mkdir -p /sdcard/DCIM/Camera/
 $ADB push sample_photos /sdcard/DCIM/Camera/
