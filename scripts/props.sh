@@ -18,6 +18,18 @@ rp ro.product.manufacturer Xiaomi
 rp ro.product.model "Redmi Pad SE"
 rp ro.product.device redmi_pad_se
 rp ro.product.name redmi_pad_se
+rp ro.product.odm.device redmi_pad_se
+rp ro.product.odm.name redmi_pad_se
+rp ro.product.product.device redmi_pad_se
+rp ro.product.product.name redmi_pad_se
+rp ro.product.system.device redmi_pad_se
+rp ro.product.system.name redmi_pad_se
+rp ro.product.system_ext.device redmi_pad_se
+rp ro.product.system_ext.name redmi_pad_se
+rp ro.product.vendor.device redmi_pad_se
+rp ro.product.vendor.name redmi_pad_se
+rp ro.product.vendor_dlkm.device redmi_pad_se
+rp ro.product.vendor_dlkm.name redmi_pad_se
 
 # ------------------------------------------------------
 # Build identity
