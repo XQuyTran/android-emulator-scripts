@@ -39,6 +39,7 @@ rp ro.build.tags release-keys
 rp ro.build.flavor redmi_pad_se_wifi-user
 rp ro.build.description "redmi_pad_se_wifi-user 13 release-keys"
 rp ro.build.display.id "redmi_pad_se_wifi-user 13 release-keys"
+rp ro.build.product redmi_pad_se
 
 rp ro.build.fingerprint \
 "Xiaomi/redmi_pad_se_wifi/redmi_pad_se:13/TQ3A.230805.001/user/release-keys"
