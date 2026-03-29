@@ -1,96 +1,52 @@
 services:
   redroid:
-    # image: redroid/redroid:13.0.0-latest
     image: redroid/redroid:13.0.0_magisk_mindthegapps
     container_name: redroid13
     privileged: true
     restart: unless-stopped
 
-    # Expose ADB for your host (lock down with UFw/NSG if cloud)
     ports:
       - "5555:5555"
 
     volumes:
       - ./data:/data
-      - ./scripts:/opt/scripts:ro   # we’ll put post-boot scripts here
-
-    # DO NOT override entrypoint
+      - ./scripts:/opt/scripts:ro
 
     command:
-      # --- Enable ADB the ReDroid way ---
-      - "androidboot.adb=1"               # official ReDroid approach to expose ADB [1](https://hub.docker.com/r/redroid/redroid/)[3](https://github.com/remote-android/redroid-doc/blob/master/README.md)
+      # --- ADB ---
+      - "androidboot.adb=1"
 
-      # --- Host kernel compatibility (ashmem-less) ---
-      - "androidboot.use_memfd=true"      # recommended on modern kernels [2](https://deepwiki.com/remote-android/redroid-doc/4.1-configuration-parameters)
+      # --- Host kernel compatibility ---
+      - "androidboot.use_memfd=true"
 
-      # --- Display (moderate, friendly to cloud VMs) ---
-      - "androidboot.redroid_width=1080"
-      - "androidboot.redroid_height=2400"
-      - "androidboot.redroid_dpi=405"
-      - "androidboot.redroid_fps=15"      # 15 FPS for better performance on cloud VMs [2](https://deepwiki.com/remote-android/redroid-doc/4.1-configuration-parameters)
+      # --- TABLET DISPLAY (Redmi Pad SE–like) ---
+      - "androidboot.redroid_width=2560"
+      - "androidboot.redroid_height=1600"
+      - "androidboot.redroid_dpi=320"
+      - "androidboot.redroid_fps=60"
+
+      # --- Enable Wi‑Fi abstraction ---
       - "androidboot.redroid_fake_wifi=1"
 
-      # --- Hardened OEM identity (Samsung A51 example) ---
-      - "ro.product.manufacturer=Samsung"
-      - "ro.product.brand=samsung"
-      - "ro.product.model=SM-A515F"
-      - "ro.product.device=a51"
-      - "ro.product.name=a51xx"
-      - "ro.build.fingerprint=samsung/a51xx/a51:12/SP1A.210812.016/A515FXXU8DWB1:user/release-keys"
-      - "ro.build.type=user"
-      - "ro.build.tags=release-keys"
+      # --- Tablet identity (top-level only; details via props.sh) ---
+      - "ro.build.characteristics=tablet"
       - "ro.kernel.qemu=0"
-      - "ro.build.characteristics=default" # avoid 'emulator' characteristics [5](https://github.com/CNflysky/redroid-rk3588/blob/main/docker-compose.yml)
-      - "ro.build.description=a51xx-user 12 SP1A.210812.016 release-keys"
-      
-      # Top-level "user/release-keys", no qemu
-      - "ro.build.type=user"
-      - "ro.build.tags=release-keys"
-      - "ro.build.display.id=a51xx-user 12 SP1A.210812.016 release-keys"
-      - "ro.build.flavor=a51xx-user"
-      # - "ro.build.product=a51"
-      
-      # Keep SELinux enforcing & secure mode for targets
-      # - "ro.secure=1"
-      # - "ro.adb.secure=1"
 
-      # some checks look for vendor/odm tags [4](https://github.com/CNflysky/redroid-rk3588/blob/main/docker-compose.yml)
-      - "ro.odm.build.tags=release-keys"
-      - "ro.odm.build.type=user"
-      - "ro.product.build.tags=release-keys"
-      - "ro.product.build.type=user"
-      - "ro.system.build.tags=release-keys"
-      - "ro.system.build.type=user"
-      - "ro.system_ext.build.tags=release-keys"
-      - "ro.system_ext.build.type=user"
-      - "ro.vendor.build.tags=release-keys"
-      - "ro.vendor.build.type=user"
-      - "ro.vendor_dlkm.build.fingerprint=samsung/a51xx/a51:12/SP1A.210812.016/A515FXXU8DWB1:user/release-keys"
-      - "ro.vendor_dlkm.build.tags=release-keys"
-      - "ro.vendor_dlkm.build.type=user"
-
-      # --- ABI / native bridge hints (if your image includes libhoudini/ndk bridge) ---
-      - "ro.product.cpu.abilist=x86_64,arm64-v8a,x86,armeabi-v7a,armeabi"
-      - "ro.product.cpu.abilist64=x86_64,arm64-v8a"
-      - "ro.product.cpu.abilist32=x86,armeabi-v7a,armeabi"
-      - "ro.dalvik.vm.isa.arm=x86"
-      - "ro.dalvik.vm.isa.arm64=x86_64"
-      - "ro.enable.native.bridge.exec=1"
-      - "ro.vendor.enable.native.bridge.exec=1"
-      - "ro.vendor.enable.native.bridge.exec64=1"
-      - "ro.dalvik.vm.native.bridge=libhoudini.so"  # use a ReDroid tag that bundles the bridge if you need ARM apps [6](https://www.gonwan.com/2026/02/21/redroid-as-an-android-emulator-under-linux/)
-
-      # --- Fake telephony / operator-like props (simple banker checks) ---
-      - "ro.radio.noril=0"
-      - "ro.telephony.default_network=9"   # LTE/GSM/WCDMA common combo
-      - "persist.radio.multisim.config=none"  # harmless override
-      - "gsm.operator.numeric=45204"       # VN – Viettel (MCC/MNC)
-      - "gsm.operator.alpha=Viettel"
-      - "gsm.sim.operator.numeric=45204"
-      - "gsm.sim.operator.alpha=Viettel"
-
-      # --- Region realism ---
+      # --- Locale ---
       - "persist.sys.locale=vi-VN"
       - "persist.sys.timezone=Asia/Ho_Chi_Minh"
 
+      # --- Native bridge (leave if you need ARM apps) ---
+      - "ro.product.cpu.abilist=x86_64,arm64-v8a,x86,armeabi-v7a,armeabi"
+      - "ro.product.cpu.abilist64=x86_64,arm64-v8a"
+      - "ro.product.cpu.abilist32=x86,armeabi-v7a,armeabi"
+      - "ro.dalvik.vm.native.bridge=libhoudini.so"
+      - "ro.enable.native.bridge.exec=1"
+      - "ro.vendor.enable.native.bridge.exec=1"
+      - "ro.vendor.enable.native.bridge.exec64=1"
+
   # adb:
+  #   image: ubuntu:latest
+
+  #   depends_on:
+  #     - redroid
