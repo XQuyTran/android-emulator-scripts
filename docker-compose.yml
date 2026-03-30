@@ -50,13 +50,7 @@ services:
     depends_on:
       - redroid
     volumes:
-      - ./scripts:/scripts:ro
+      - ./scripts:/scripts
     environment:
       - ADB_TARGET=redroid:5555
     command: bash -c "echo Waiting for redroid ADB to be available...; until adb connect redroid:5555; do sleep 2; done; echo redroid is online; for script in /scripts/*.sh; do name=$(basename \"$script\"); if [[ \"$name\" == 'props.sh' || \"$name\" == 'seed_data_clear.sh' ]]; then echo Skipping $name; continue; fi; echo Running $name; bash \"$script\"; done"
-
-  # adb:
-  #   image: ubuntu:latest
-
-  #   depends_on:
-  #     - redroid
