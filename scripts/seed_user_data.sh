@@ -71,18 +71,7 @@ sleep 1
 $ADB shell monkey -p com.android.settings 2
 
 # ======================================================
-# 5) NOTIFICATIONS (Non-SMS, tablet-appropriate)
-# ======================================================
-echo "[Seeder] Posting system notifications..."
-
-$ADB shell cmd notification post -t "System Update" tablet1 \
-  "Your system is up to date."
-
-$ADB shell cmd notification post -t "Download complete" tablet2 \
-  "5 files downloaded successfully."
-
-# ======================================================
-# 6) RECENTS STACK
+# 5) RECENTS STACK
 # ======================================================
 echo "[Seeder] Adding recents..."
 
