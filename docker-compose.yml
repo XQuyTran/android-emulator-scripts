@@ -45,13 +45,13 @@ services:
       - "ro.vendor.enable.native.bridge.exec=1"
       - "ro.vendor.enable.native.bridge.exec64=1"
 
-  adb-setup:
-    build: .
-    depends_on:
-      - redroid
-    volumes:
-      - ./scripts:/scripts
-    environment:
-      - ADB_TARGET=redroid:5555
-    working_dir: /scripts
-    command: bash -c "echo Waiting for redroid ADB to be available...; until adb connect redroid:5555; do sleep 2; done; echo redroid is online; chmod +x /scripts/*.sh; /scripts/apply_props.sh; /scripts/app_installs.sh; /scripts/seed_user_data.sh"
+  # adb-setup:
+  #   build: .
+  #   depends_on:
+  #     - redroid
+  #   volumes:
+  #     - ./scripts:/scripts
+  #   environment:
+  #     - ADB_TARGET=redroid:5555
+  #   working_dir: /scripts
+  #   command: bash -c "echo Waiting for redroid ADB to be available...; until adb connect redroid:5555; do sleep 2; done; echo redroid is online; chmod +x /scripts/*.sh; /scripts/apply_props.sh; /scripts/app_installs.sh; /scripts/seed_user_data.sh"
