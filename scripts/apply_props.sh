@@ -13,7 +13,7 @@ adb -s "$ADB_TARGET" push battery_init.sh /sdcard/battery_init.sh
 adb -s "$ADB_TARGET" push battery_curve.sh /sdcard/battery_curve.sh
 adb -s "$ADB_TARGET" push wifi_bootstrap.sh /sdcard/wifi_bootstrap.sh
 adb -s "$ADB_TARGET" shell su 0 "mkdir -p /data/adb/service.d"
-adb -s "$ADB_TARGET" shell su 0 "mv /sdcard/props.sh /data/adb/service.d/props.sh"
+adb -s "$ADB_TARGET" shell su 0 "mv /sdcard/*.sh /data/adb/service.d/"
 adb -s "$ADB_TARGET" shell su 0 "chmod 755 /data/adb/service.d/*.sh"
 adb -s "$ADB_TARGET" shell su 0 "/data/adb/service.d/props.sh"
 adb -s "$ADB_TARGET" shell su 0 "/data/adb/service.d/battery_init.sh"
