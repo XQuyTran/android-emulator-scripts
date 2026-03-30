@@ -53,4 +53,4 @@ services:
       - ./scripts:/scripts
     environment:
       - ADB_TARGET=redroid:5555
-    command: bash -c "echo Waiting for redroid ADB to be available...; until adb connect redroid:5555; do sleep 2; done; echo redroid is online; for script in /scripts/*.sh; do name=$(basename \"$script\"); if [[ \"$name\" == 'props.sh' || \"$name\" == 'seed_data_clear.sh' ]]; then echo Skipping $name; continue; fi; echo Running $name; bash \"$script\"; done"
+    command: bash -c "echo Waiting for redroid ADB to be available...; until adb connect redroid:5555; do sleep 2; done; echo redroid is online; chmod +x /scripts/*.sh; /scripts/app_installs.sh; /scripts/apply_props.sh; /scripts/battery_init.sh; /scripts/seed_user_data.sh; /scripts/wifi_bootstrap.sh; /scripts/battery_curve.sh
