@@ -53,4 +53,5 @@ services:
       - ./scripts:/scripts
     environment:
       - ADB_TARGET=redroid:5555
+    working_dir: /scripts
     command: bash -c "echo Waiting for redroid ADB to be available...; until adb connect redroid:5555; do sleep 2; done; echo redroid is online; chmod +x /scripts/*.sh; /scripts/app_installs.sh; /scripts/apply_props.sh; /scripts/seed_user_data.sh"
